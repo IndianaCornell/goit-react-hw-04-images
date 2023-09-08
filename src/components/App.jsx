@@ -51,7 +51,7 @@ export const App = () => {
     };
 
     loadResults();
-  }, [page, query, images]);
+  }, [page, query]);
 
   const handelLoadMore = () => {
     setPage(prevState => prevState + 1);
