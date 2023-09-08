@@ -22,35 +22,36 @@ export const App = () => {
     setPage(1);
   };
 
-  const loadResults = async () => {
-    try {
-      setLoading(true);
-      const queryResult = await findImages(query, page);
-
-      if (page === 1 && queryResult.length !== 0) {
-        toast.success(`Here we go`, { autoClose: 1000 });
-      }
-
-      if (queryResult.length === 0) {
-        setLoading(false);
-        toast.error(`Sorry, there are no images for your request :C`);
-        return;
-      }
-
-      setImages(prevState =>
-        page > 1 ? [...prevState, ...queryResult] : queryResult
-      );
-
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     if (!query) return;
+
+    const loadResults = async () => {
+      try {
+        setLoading(true);
+        const queryResult = await findImages(query, page);
+
+        if (page === 1 && queryResult.length !== 0) {
+          toast.success(`Here we go`, { autoClose: 1000 });
+        }
+
+        if (queryResult.length === 0) {
+          setLoading(false);
+          toast.error(`Sorry, there are no images for your request :C`);
+          return;
+        }
+
+        setImages(prevState =>
+          page > 1 ? [...prevState, ...queryResult] : queryResult
+        );
+
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     loadResults();
-  }, [page, query]);
+  }, [page, query, images]);
 
   const handelLoadMore = () => {
     setPage(prevState => prevState + 1);
